@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 interface ITodoProps {
-  id: number;
+  id: string;
   title: string;
   completed: boolean;
   slug?: string;
@@ -34,9 +34,30 @@ function addTodo({ state, action }: ITodoState): InitialStateProps {
     ...state,
     todos: [
       ...state.todos,
-      { id: Date.now(), title: action.payload, completed: false },
+      { id: Date.now().toString(), title: action.payload, completed: false },
     ],
   };
+
+  return currentState;
+}
+
+function setCompletedTodo({ state, action }: ITodoState): InitialStateProps {
+  if (!action.payload) {
+    return state;
+  }
+
+  const currentState = {
+    ...state,
+    todos: state.todos.map((todo) => {
+      if (todo.id === action.payload) {
+        return { ...todo, completed: !todo.completed };
+      }
+
+      return todo;
+    }),
+  };
+
+  console.log(currentState);
 
   return currentState;
 }
@@ -48,6 +69,8 @@ function todoReducer(
   switch (action.type) {
     case 'ADD_TODO':
       return addTodo({ state, action });
+    case 'SET_COMPLETED_TODO':
+      return setCompletedTodo({ state, action });
     default:
       return state;
   }
