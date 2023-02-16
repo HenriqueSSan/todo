@@ -1,5 +1,6 @@
 import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import Header from './components/Header';
 import { ITodoActionProps } from './store/@types';
 
 function TodoList() {
@@ -39,6 +40,7 @@ function TodoList() {
           key={todo.id}
           onClick={() => {
             handleSetCompletedTodo(todo);
+            console.log(todos);
           }}
         >
           <span> {todo.completed ? '+' : '-'} </span>
@@ -83,24 +85,9 @@ function TodoList() {
 }
 
 function App() {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    setTimeout(() => {
-      dispatch({ type: 'ADD_TODO', payload: 'OKOOOKO' });
-    }, 1000);
-
-    setTimeout(() => {
-      dispatch({ type: 'ADD_TODO', payload: 'OKOOOKO' });
-    }, 2000);
-
-    setTimeout(() => {
-      dispatch({ type: 'ADD_TODO', payload: 'OKOOOKO' });
-    }, 3000);
-  }, [dispatch]);
-
   return (
     <div>
+      <Header />
       <TodoList />
     </div>
   );
