@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ITodoActionProps } from './store/todoStore';
+import { ITodoActionProps } from './store/@types';
 
 function TodoList() {
   const dispatch = useDispatch();
