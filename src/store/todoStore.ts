@@ -9,15 +9,18 @@ interface ITodoProps {
 
 interface InitialStateProps {
   todos: ITodoProps[];
+  filter: string | '';
 }
 
 export const initalState: InitialStateProps = {
   todos: [],
+  filter: '',
 };
 
 export interface ITodoActionProps {
   type: string;
   payload?: string | '';
+  filter?: string | 'ALL' | 'COMPLETE' | 'INCOMPLETE' | '';
 }
 
 export interface ITodoState {
@@ -75,6 +78,10 @@ function removeTodo({ state, action }: ITodoState): InitialStateProps {
   return currentState;
 }
 
+function setFilter({ state, action }: ITodoState): InitialStateProps {
+  return { ...state, filter: action.filter || '' };
+}
+
 function todoReducer(
   state = initalState,
   action: ITodoActionProps,
@@ -86,6 +93,8 @@ function todoReducer(
       return setCompletedTodo({ state, action });
     case 'REMOVE_TODO':
       return removeTodo({ state, action });
+    case 'FILTER_TODO':
+      return setFilter({ state, action });
     default:
       return state;
   }
