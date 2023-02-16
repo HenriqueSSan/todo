@@ -9,6 +9,10 @@ function TodoList() {
     dispatch({ type: 'SET_COMPLETED_TODO', payload: todo.id });
   }
 
+  function handleRemoveTodo(todo: any) {
+    dispatch({ type: 'REMOVE_TODO', payload: todo.id });
+  }
+
   return (
     <div>
       {todos.map((todo: any) => (
@@ -18,7 +22,12 @@ function TodoList() {
             handleSetCompletedTodo(todo);
           }}
         >
+          <span> {todo.completed ? '+' : '-'} </span>
           {todo.title}
+
+          <button type="button" onClick={() => handleRemoveTodo(todo)}>
+            X
+          </button>
         </li>
       ))}
     </div>

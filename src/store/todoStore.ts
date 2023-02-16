@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, current } from '@reduxjs/toolkit';
 
 interface ITodoProps {
   id: string;
@@ -62,6 +62,19 @@ function setCompletedTodo({ state, action }: ITodoState): InitialStateProps {
   return currentState;
 }
 
+function removeTodo({ state, action }: ITodoState): InitialStateProps {
+  if (!action.payload) {
+    return state;
+  }
+
+  const currentState = {
+    ...state,
+    todos: state.todos.filter((todo) => todo.id !== action.payload),
+  };
+
+  return currentState;
+}
+
 function todoReducer(
   state = initalState,
   action: ITodoActionProps,
@@ -71,6 +84,8 @@ function todoReducer(
       return addTodo({ state, action });
     case 'SET_COMPLETED_TODO':
       return setCompletedTodo({ state, action });
+    case 'REMOVE_TODO':
+      return removeTodo({ state, action });
     default:
       return state;
   }
