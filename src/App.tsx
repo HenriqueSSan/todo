@@ -1,94 +1,30 @@
-import { useEffect, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import Header from './components/Header';
-import { ITodoActionProps } from './store/@types';
-
-function TodoList() {
-  const dispatch = useDispatch();
-
-  const { todos, filter } = useSelector(
-    (initialState: any) => initialState.todos,
-  );
-
-  function handleSetCompletedTodo(todo: any) {
-    dispatch({ type: 'SET_COMPLETED_TODO', payload: todo.id });
-  }
-
-  function handleRemoveTodo(todo: any) {
-    dispatch({ type: 'REMOVE_TODO', payload: todo.id });
-  }
-
-  const filteredTodos = useMemo(() => {
-    switch (filter) {
-      case 'COMPLETE':
-        return todos.filter((todo) => todo.completed);
-      case 'INCOMPLETE':
-        return todos.filter((todo) => !todo.completed);
-      default:
-        return todos;
-    }
-  }, [todos, filter]);
-
-  function handleSetFilter({ filter }: Pick<ITodoActionProps, 'filter'>) {
-    dispatch({ type: 'FILTER_TODO', filter });
-  }
-
-  return (
-    <div>
-      {filteredTodos.map((todo: any) => (
-        <li
-          key={todo.id}
-          onClick={() => {
-            handleSetCompletedTodo(todo);
-            console.log(todos);
-          }}
-        >
-          <span> {todo.completed ? '+' : '-'} </span>
-          {todo.title}
-
-          <button type="button" onClick={() => handleRemoveTodo(todo)}>
-            X
-          </button>
-        </li>
-      ))}
-
-      <p>{filteredTodos.length}</p>
-
-      <button
-        type="button"
-        onClick={() => {
-          handleSetFilter({ filter: 'ALL' });
-        }}
-      >
-        ALL
-      </button>
-
-      <button
-        type="button"
-        onClick={() => {
-          handleSetFilter({ filter: 'COMPLETE' });
-        }}
-      >
-        COMPLETE
-      </button>
-
-      <button
-        type="button"
-        onClick={() => {
-          handleSetFilter({ filter: 'INCOMPLETE' });
-        }}
-      >
-        INCOMPLETE
-      </button>
-    </div>
-  );
-}
+import { List } from './components/List';
 
 function App() {
   return (
-    <div>
+    <div className="pb-[120px]" id="todo-top#id">
       <Header />
-      <TodoList />
+      <List />
+
+      <a
+        className="fixed bottom-7 right-7 flex h-[36px] w-[36px] items-center justify-center rounded-full bg-light-gray-400 transition duration-300 ease-in hover:bg-secondary dark:bg-dark-gray-300 dark:hover:bg-secondary"
+        href="#todo-top#id"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="1em"
+          height="1em"
+          className="fill-light-gray-500 dark:fill-dark-gray-100"
+          viewBox="0 2.4 24 24"
+        >
+          <path
+            className="fill-light-gray-500 dark:fill-dark-gray-100"
+            fill="currentColor"
+            d="M12 22.4q-.425 0-.713-.287T11 21.4V10.225L6.125 15.1q-.3.3-.713.3t-.712-.3q-.3-.3-.3-.7t.3-.7l6.6-6.6q.15-.15.325-.212T12 6.825q.2 0 .388.063t.312.212l6.6 6.6q.3.3.3.7t-.3.7q-.3.3-.713.3t-.712-.3L13 10.225V21.4q0 .425-.288.713T12 22.4Z"
+          />
+        </svg>
+      </a>
     </div>
   );
 }

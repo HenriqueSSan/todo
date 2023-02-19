@@ -6,6 +6,7 @@ export default defineConfig({
   plugins: [eslintPlugin()],
   server: {
     port: 3000,
+    host: true,
   },
   resolve: {
     alias: {

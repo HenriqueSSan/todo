@@ -9,15 +9,13 @@ export function verificated({ state, action, callback }: IVerificatedProps) {
 }
 
 export function addTodo({ state, action }: ITodoState): InitialStateProps {
-  const currentState = {
+  return {
     ...state,
     todos: [
       ...state.todos,
       { id: Date.now().toString(), title: action.payload, completed: false },
     ],
-  };
-
-  return currentState as InitialStateProps;
+  } as InitialStateProps;
 }
 
 export function setCompletedTodo({
@@ -48,5 +46,5 @@ export function removeTodo({ state, action }: ITodoState): InitialStateProps {
 }
 
 export function setFilter({ state, action }: ITodoState): InitialStateProps {
-  return { ...state, filter: action.filter || '' };
+  return { ...state, filter: action.filter || 'ALL' };
 }
